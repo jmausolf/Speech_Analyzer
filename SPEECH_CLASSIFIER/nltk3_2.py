@@ -149,40 +149,49 @@ df = pd.DataFrame(columns=header, index = index)
 
 
 
-def speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms):
+def speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, n):
 	#print "FUNCTION TEST"
 	for term in terms:
 		for gram in ngram4:
 			if term == gram:
 				count = sent.count(gram)
 				print "Count: ", count, "| ", gram
-				df.ix[0, term] = count
+				df.ix[n, term] = count
 		for gram in ngram3:
 			if term == gram:
 				count = sent.count(gram)
 				print "Count: ", count, "| ", gram
-				df.ix[0, term] = count
+				df.ix[n, term] = count
 		for gram in ngram2:
 			if term == gram:
 				count = sent.count(gram)
 				print "Count: ", count, "| ", gram
-				df.ix[0, term] = count
+				df.ix[n, term] = count
 		for gram in ngram1:
 			if term == gram:
 				count = sent.count(gram)
 				print "Count: ", count, "| ", gram
-				df.ix[0, term] = count
+				df.ix[n, term] = count
 
 
 
-speeches = ["2011-12-06_ID1.txt"]
+speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt",  "2011-12-06_ID1.txt"]
+
 
 for speech in speeches:
-	print speech
+	#print speech
 	date = speech.split('_')[0]
-	print date
+	#print date
 
-	df.ix[0, "DATE"] = date
+	print "NUMBER IN INDEX", len(df.index)
+
+	n = len(df.index)
+	print n
+
+	#Add Row to Data Frame
+	#df.loc[3] = "value", where 3 = the number of the next data row
+	df.loc[n] = 0
+	df.ix[n, "DATE"] = date
 
 	sent = read_speech(speech)
 
@@ -191,7 +200,7 @@ for speech in speeches:
 	ngram3 = get_group_set(3, sent)
 	ngram4 = get_group_set(4, sent)
 
-	speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms)
+	speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, n)
 
 
 
