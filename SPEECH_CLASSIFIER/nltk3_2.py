@@ -128,54 +128,38 @@ finally:
 """
 
 
-
-
-header = ["DATE", "TIME", "LOCATION"]+terms
-index = np.arange(5)
-
-df = pd.DataFrame(columns=header, index = index)
-
-
-#Example of updating particular cells works
-#df.ix["0":"3", "DATE"] = "12/06/2015"
-#df.ix["0":"4", "jobs"] = 5
-#df.ix[4, "fair"] = 3
-#df.ix[0:2, "gets a fair shake"] = 11
-
-
-#print df
-
-#df.to_csv("test_csv.csv", encoding='utf-8')
-
-
-
-def speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, n):
+def speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, df, n):
 	#print "FUNCTION TEST"
 	for term in terms:
 		for gram in ngram4:
 			if term == gram:
 				count = sent.count(gram)
-				print "Count: ", count, "| ", gram
 				df.ix[n, term] = count
 		for gram in ngram3:
 			if term == gram:
 				count = sent.count(gram)
-				print "Count: ", count, "| ", gram
 				df.ix[n, term] = count
 		for gram in ngram2:
 			if term == gram:
 				count = sent.count(gram)
-				print "Count: ", count, "| ", gram
 				df.ix[n, term] = count
 		for gram in ngram1:
 			if term == gram:
 				count = sent.count(gram)
-				print "Count: ", count, "| ", gram
 				df.ix[n, term] = count
 
 
+#Setup Initial Data Frame
+header = ["DATE", "TIME", "LOCATION"]+terms
+index = np.arange(0)
+df = pd.DataFrame(columns=header, index = index)
 
-speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt",  "2011-12-06_ID1.txt"]
+
+
+
+
+
+speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt", "2014-01-17_ID1.txt", "2011-12-06_ID1.txt"]
 
 
 for speech in speeches:
@@ -183,10 +167,10 @@ for speech in speeches:
 	date = speech.split('_')[0]
 	#print date
 
-	print "NUMBER IN INDEX", len(df.index)
+	#print "NUMBER IN INDEX", len(df.index)
 
 	n = len(df.index)
-	print n
+	#print n
 
 	#Add Row to Data Frame
 	#df.loc[3] = "value", where 3 = the number of the next data row
@@ -200,9 +184,11 @@ for speech in speeches:
 	ngram3 = get_group_set(3, sent)
 	ngram4 = get_group_set(4, sent)
 
-	speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, n)
+	speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, df, n)
 
 
 
 print df
 df.to_csv("test_csv.csv", encoding='utf-8')
+
+
