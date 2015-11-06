@@ -38,58 +38,18 @@ def read_speech(speechfile):
 
 
 
-#sent = read_speech("2011-12-06_ID1.txt")
-
-
-"""
-f = open("2011-12-06_ID1.txt", 'rU')
-#f = open("2014-01-15_ID1.txt", 'rU')
-raw = f.read().decode('utf8')
-print type(raw)
-print len(raw)
-
-sent2 = raw.replace('.', ' ')
-sent = remove_non_ascii_2(sent2)
-
-"""
-
-#print sent
-
-#n = 1
-group_size = 2
-group_list = group_text(text, group_size)
-# convert list to set to avoid duplicates
-group_set = set(group_list)
-#print(group_set)
 
 def get_group_set(group_size, text):
 	group_list = group_text(text, group_size)
 	group_set = set(group_list)
 	return group_set
 
-#ngram1 = get_group_set(1, sent)
-#ngram2 = get_group_set(2, sent)
-#ngram3 = get_group_set(3, sent)
-#ngram4 = get_group_set(4, sent)
 
 
 
 def ngram(n, data):
 	ngram = get_group_set(n, data)
 	return ngram
-
-
-
-
-
-#print ngram5
-
-# optionally take the word_groups in the set
-# and count them in the text
-for group in group_set:
-    count = text.count(group)
-    sf = "'%s' appears %d times in the text"
-    #print(sf % (group, count))
 
 
 
