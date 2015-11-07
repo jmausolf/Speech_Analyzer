@@ -10,6 +10,8 @@
 import re
 import pandas as pd
 import numpy as np
+import glob
+import os
 
 # group a text into groups of words
 # used Python31 should work with Python26
@@ -71,8 +73,6 @@ terms = ["We", "gets a fair shake", "jobs", "fair", "fair share", "economy", "un
 
 
 
-
-
 def speech_phrase_counter(ngram1, ngram2, ngram3, ngram4, terms):
 	#print "FUNCTION TEST"
 	for term in terms:
@@ -108,23 +108,6 @@ for speech in speeches:
 	ngram4 = get_group_set(4, sent)
 
 	speech_phrase_counter(ngram1, ngram2, ngram3, ngram4, terms)
-
-
-
-
-date = "date"
-time = "time"
-location = "location"
-
-
-
-try:
-	f=open('speech_data.csv', 'a')
-	#for term in terms:
-	#f.write(u"TERMS \n")
-	f.write(u"DATE, TIME, LOCATION, We, gets a fair shake, jobs, fair, fair share, economy, unemployment, 99, 99 percent, 1 percent, 1, wealthy, loophole, main street, Warren Buffett, Warren Buffett's secretary, secretary, income, wealth, occupy, occupying, tax rate, middle class, upper class, working class, lobby, corporate, fair shot, special interests, lower class, poor, poverty, rich, inequality, class, America, Wall Street, Wall Street billionaires \n")
-finally:
-	f.close()
 """
 
 
@@ -159,21 +142,21 @@ df = pd.DataFrame(columns=header, index = index)
 
 
 
-speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt", "2014-01-17_ID1.txt", "2011-12-06_ID1.txt"]
+#speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt", "2014-01-17_ID1.txt", "2011-12-06_ID1.txt"]
+
+os.chdir("2014_Speech_President")
+
+speech_files = glob.glob("*.txt")
 
 
-for speech in speeches:
-	#print speech
+
+
+
+for speech in speech_files:
 	date = speech.split('_')[0]
-	#print date
-
-	#print "NUMBER IN INDEX", len(df.index)
-
 	n = len(df.index)
-	#print n
 
 	#Add Row to Data Frame
-	#df.loc[3] = "value", where 3 = the number of the next data row
 	df.loc[n] = 0
 	df.ix[n, "DATE"] = date
 
@@ -185,7 +168,6 @@ for speech in speeches:
 	ngram4 = get_group_set(4, sent)
 
 	speech_phrase_counter2(ngram1, ngram2, ngram3, ngram4, terms, df, n)
-
 
 
 print df
