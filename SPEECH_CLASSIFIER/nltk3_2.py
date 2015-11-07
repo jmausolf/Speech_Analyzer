@@ -142,7 +142,7 @@ df = pd.DataFrame(columns=header, index = index)
 
 
 
-#speeches = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt", "2014-01-17_ID1.txt", "2011-12-06_ID1.txt"]
+#speech_files = ["2014-01-15_ID1.txt", "2014-01-16_ID1.txt", "2014-01-17_ID1.txt", "2011-12-06_ID1.txt"]
 
 os.chdir("2014_Speech_President")
 
@@ -160,7 +160,32 @@ for speech in speech_files:
 	df.loc[n] = 0
 	df.ix[n, "DATE"] = date
 
+
+
 	sent = read_speech(speech)
+
+	#time = re.search(r'^(([01]\d|2[0-3]):([0-5]\d)|24:00)$', sent)
+	#time = re.findall(r'\d{1,2}(?:(?:AM|PM)|(?::\d{1,2})(?:AM|PM)?)', sent)
+	#time = re.findall(r'\d{1,2}(?:(?:AM|PM)|(?::\d{1,2})(?:AM|PM)?)(\s[A-Z].[A-Z].)', sent)
+
+	#time = re.findall(r'\d{1,2}:\d{1,2}\s[A-Z].[A-Z].+', sent)
+	#time = time0[0].replace('P M ', 'PM').replace('A M ', 'AM')
+
+	#time = re.findall(r'^\d{1,2}([:.]?\d{1,2})?([ ]?[a|p]m)?$', sent)
+	try:
+		try:
+			time0 = re.findall(r'\d{1,2}:\d{1,2}\s[A-Z].[A-Z].+', sent)
+			time = time0[0].replace('P M ', 'PM').replace('A M ', 'AM')
+			df.ix[n, "TIME"] = time
+		except:
+			try:
+				time = re.findall(r'\d{1,2}:\d{1,2}\s[A-Z].[A-Z].+', sent)
+				df.ix[n, "TIME"] = time[0]
+			except:
+				time = re.findall(r'\d{1,2}(?:(?:AM|PM)|(?::\d{1,2})(?:AM|PM)?)', sent)
+				df.ix[n, "TIME"] = time[0]
+	except:
+		pass
 
 	ngram1 = get_group_set(1, sent)
 	ngram2 = get_group_set(2, sent)
@@ -171,6 +196,6 @@ for speech in speech_files:
 
 
 print df
-df.to_csv("test_csv.csv", encoding='utf-8')
+df.to_csv("Presidential_Speech_Data.csv", encoding='utf-8')
 
 
